@@ -38,7 +38,7 @@ var testList = [{ "code": "300833B2DDD9014000000000", "count": 1 },
 export default function RFIDRegisterPage({ navigation, route }) {
     const [list, setList] = useState([])
     const [isSelectAll, setIsSelectAll] = useState(true)
-    const [selectList, setSelectList] = useState(testList)
+    const [selectList, setSelectList] = useState([])
     const [modalVisible, setModalVisible] = useState(false)
     const [rfidName, setRfidName] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
@@ -79,6 +79,7 @@ export default function RFIDRegisterPage({ navigation, route }) {
                     },
                     {
                         text: "确定", onPress: async () => {
+                            console.log('确定进一步执行绑定操作')
                             navigation.replace('rfidbind', { unbind_rfid_list: selectList })
                         }
                     }
@@ -91,8 +92,9 @@ export default function RFIDRegisterPage({ navigation, route }) {
     }, [rfidName, selectList])
     useEffect(() => {
         if (route.params?.unregister_rfid_list) {
-            let init_list = testList.map((item, index) => { item['select'] = true; item['key'] = index.toString(); return item })
+            let init_list = route.params.unregister_rfid_list.map((item, index) => { item['select'] = true; item['key'] = index.toString(); return item })
             setList(init_list)
+            setSelectList(init_list)
         }
     }, [])
     return (

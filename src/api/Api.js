@@ -90,7 +90,6 @@ const Api = {
         }
         return false
     },
-
     getRfidList: async () => {
         let sql = `select rfids.*,stores.name as store_name from rfids
         left join stores on stores.id = rfids.store_id
@@ -103,13 +102,13 @@ const Api = {
     },
     addRfidList: async ({ rfidName, selectList }) => {
         let temp_sql = '';
-        selectList.forEach((item) => {
-            let temp_cell = '("' + item['code'] + '","' + rfidName + '"),'
+        selectList.forEach((item, index) => {
+            let name_footer = index > 0 ? '(' + (index) + ')' : ''
+            let temp_cell = '("' + item['code'] + '","' + rfidName + name_footer + '"),'
             temp_sql = temp_sql + temp_cell
         })
         temp_sql = temp_sql.substring(0, temp_sql.length - 1)
         let sql = `insert into rfids (rfid_code,name) values ${temp_sql}`
-        console.log('sql:', sql)
         let res = await Api.obs({ sql })
         if (res.data.code === 0) {
             return true
@@ -123,6 +122,35 @@ const Api = {
             return res.data.data
         }
         return []
-    }
+    },
+    bindRfidToStore: async ({ rfids, store_id }) => {
+        let tempstr = '';
+        rfids.forEach((rfid) => {
+            tempstr = tempstr + '"' + rfid + '",'
+        })
+        tempstr = tempstr.substring(0, tempstr.length - 1)
+        let sql = `update rfids set store_id = ${store_id} where rfid_code in (${tempstr})  and isdelete = 0`
+        let res = await Api.obs({ sql })
+        if (res.data.code === 0) {
+            return true
+        }
+        return false
+    },
+    getStoreCountByStoreId: async ({ store_id }) => {
+        let sql = `select count(id) as count from rfids where store_id = ${store_id} and isdelete = 0`
+        let res = await Api.obs({ sql })
+        if (res.data.code === 0) {
+            return res.data.data
+        }
+        return []
+    },
+    updateStoreCount: async ({ count, store_id }) => {
+        let sql = `update stores set count = ${count} where id = ${store_id} and isdelete = 0`
+        let res = await Api.obs({ sql })
+        if (res.data.code === 0) {
+            return true
+        }
+        return false
+    },
 }
 export default Api;

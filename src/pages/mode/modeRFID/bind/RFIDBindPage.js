@@ -31,7 +31,7 @@ export default function RFIDBindPage({ navigation, route }) {
         let res_list = await Api.getAllRfidStores();///获取所有大件【has_rfid = 1】物品 有数据或为空数组[]
         let list = res_list
         // list = []///测试物品列表数据为空时-【正式时注释掉】
-        list = copyList(list, 10)///将数据复制几次-测试数据量多的情况-【正式时注释掉】
+        // list = copyList(list, 10)///将数据复制几次-测试数据量多的情况-【正式时注释掉】
         list_orginal = list.map((item, index) => {
             item['key'] = index.toString();
             return item
@@ -50,10 +50,8 @@ export default function RFIDBindPage({ navigation, route }) {
         setStoreList(list_afterFiler)
     }, [searchKey])
     const bindHandler = useCallback(async () => {
-        let rfid_code_list = unbind_rfid_list.map((item) => item['code'])
+        let rfids = unbind_rfid_list.map((item) => item['code'])
         let store_id = selectStore['id']
-        console.log('rfid_code_list:', rfid_code_list)
-        console.log('store_id:', store_id)
         Alert.alert(
             "确定将标签绑定至该物品吗？",
             null,
@@ -65,19 +63,25 @@ export default function RFIDBindPage({ navigation, route }) {
                         let time = setTimeout(() => {
                             setIsUploading(false)
                         }, 5000);
+                        /**
+                         * 3次http
+                         * 1，更新rfids表中 对应rfid_code的store_id值。
+                         * 2，查询rfids表中 对应store_id的条数。count(id) 
+                         * 3，更新stores表中，对应store的count
+                         * 完成绑定 toast提示，移除uploading状态
+                         */
                         setIsUploading(true)
-                        /*
-                               3次http
-                               1，更新rfids表中 对应rfid_code的store_id值。
-                               2，查询rfids表中 对应store_id的条数。count(id) 
-                               3，更新stores表中，对应store的count
-                               完成绑定 toast提示，移除uploading状态
-                               */
+                        let res1 = await Api.bindRfidToStore({ rfids, store_id })
+                        if (!res1) { ToastAndroid.showWithGravity("绑定失败1", ToastAndroid.SHORT, ToastAndroid.CENTER); return }
+                        let res2 = await Api.getStoreCountByStoreId({ store_id })
+                        if (res2.length === 0) { ToastAndroid.showWithGravity("绑定失败2", ToastAndroid.SHORT, ToastAndroid.CENTER); return }
+                        let count = res2[0]['count']
+                        let res3 = await Api.updateStoreCount({ count, store_id })
+                        if (!res3) { ToastAndroid.showWithGravity("绑定失败3", ToastAndroid.SHORT, ToastAndroid.CENTER); return }
                         ///如果绑定成功
                         ToastAndroid.showWithGravity("绑定成功", ToastAndroid.SHORT, ToastAndroid.CENTER);
-                        navigation.pop(2)
+                        navigation.popToTop()
                         clearTimeout(time)
-                        ///如果绑定成功
                     }
                 }
             ]
