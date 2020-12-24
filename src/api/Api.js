@@ -152,5 +152,33 @@ const Api = {
         }
         return false
     },
+    getStorelistByhasrfid: async () => {
+        let sql = `select * from stores where isdelete = 0 and has_rfid = 1`
+        let res = await Api.obs({ sql })
+        if (res.data.code === 0) {
+            return res.data.data
+        }
+        return []
+    },
+    /**
+     * 上传扫描
+     * @param {*} param0 
+     * is_lost = 0, 是否遗漏
+     * user_name, 用户名称
+     * content_scan 扫描记录 JSON.stringify
+     * content_lost 诊断记录 JSON.stringify 或 null
+     * remark 备注 
+     * time 时间 YYYY-MM-DD HH:MM:ss
+     */
+    uploadStoreScanRecords: async ({ is_lost = 0, user_name, content_scan = null, content_lost = null, remark = null, time }) => {
+        let sql = `insert into store_scan_records (is_lost,user_name, content_scan, content_lost, remark, time) values 
+        (${is_lost},'${user_name}',${content_scan ? "'" + content_scan + "'" : null},${content_lost ? "'" + content_lost + "'" : null},${remark ? "'" + remark + "'" : null},'${time}')`
+        console.log('sql:', sql)
+        let res = await Api.obs({ sql })
+        if (res.data.code === 0) {
+            return true
+        }
+        return false
+    },
 }
 export default Api;
