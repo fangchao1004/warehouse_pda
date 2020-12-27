@@ -5,7 +5,6 @@ import NfcManager from 'react-native-nfc-manager';
 import Api from '../../../api/Api';
 import { Button, Card, ListItem } from 'react-native-elements';
 import card_png from '../../../assets/card.png'
-import store_png from '../../../assets/store.png'
 import nfc_png from '../../../assets/nfc.png'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -83,16 +82,6 @@ export default ({ navigation }) => {
                         </View>
                         <Card.Divider />
                         {storelist.length > 0 ? <View>
-                            {/* <View style={styles.titlebar}>
-                                <View style={styles.titlebarleft}>
-                                    <Image
-                                        style={styles.image}
-                                        resizeMode="cover"
-                                        source={store_png}
-                                    />
-                                    <Text style={styles.titletxt}>物品列表</Text>
-                                </View>
-                            </View> */}
                             {storelist.map((item, index) => {
                                 return <View key={index} style={styles.storebar}>
                                     <Text>{item.name}</Text>
