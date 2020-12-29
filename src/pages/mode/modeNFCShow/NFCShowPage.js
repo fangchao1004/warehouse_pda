@@ -7,6 +7,7 @@ import { Button, Card, ListItem } from 'react-native-elements';
 import card_png from '../../../assets/card.png'
 import nfc_png from '../../../assets/nfc.png'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Badge from '../../../common/Badge';
 
 export default ({ navigation }) => {
     const [nfcInfo, setNfcInfo] = useState(null)
@@ -83,8 +84,12 @@ export default ({ navigation }) => {
                         <Card.Divider />
                         {storelist.length > 0 ? <View>
                             {storelist.map((item, index) => {
+                                console.log('item:', item)
                                 return <View key={index} style={styles.storebar}>
-                                    <Text>{item.name}</Text>
+                                    <View style={styles.titlebarleft}>
+                                        {item['has_rfid'] ? <Badge /> : null}
+                                        <Text>{item.name}</Text>
+                                    </View>
                                     <Text>{item.count} {item.unit}</Text>
                                 </View>
                             })}

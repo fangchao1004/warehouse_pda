@@ -59,7 +59,7 @@ const Api = {
         return []
     },
     getStoreListByNfcId: async (nfc_shelf_id) => {
-        let sql = `select * from stores where nfc_shelf_id = ${nfc_shelf_id}`
+        let sql = `select * from stores where nfc_shelf_id = ${nfc_shelf_id} and isdelete = 0`
         let res = await Api.obs({ sql })
         if (res.data.code === 0) {
             return res.data.data
