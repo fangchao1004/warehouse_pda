@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, useContext } from 'react'
 import { View, Text, ToastAndroid, StyleSheet, Image, Alert } from 'react-native'
 import CommonBar from '../../../common/CommonBar'
 import NfcManager from 'react-native-nfc-manager';
@@ -8,8 +8,13 @@ import card_png from '../../../assets/card.png'
 import nfc_png from '../../../assets/nfc.png'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Badge from '../../../common/Badge';
-
+import { filterCellAttribute } from '../../../common/Tool';
+import moment from 'moment'
+import { AppDataContext } from '../../../data/AppData';
+const FORMAT = 'YYYY-MM-DD HH:mm:ss'
 export default ({ navigation }) => {
+    const { appState } = useContext(AppDataContext)
+    const [isLoading, setIsLoading] = useState(false)
     const [nfcInfo, setNfcInfo] = useState(null)
     const [storelist, setStorelist] = useState([])
     const [allCount, setAllCount] = useState(0)
@@ -28,7 +33,7 @@ export default ({ navigation }) => {
                     );
                 } else {
                     const tagInfo = list[0]
-                    console.log('tagInfo:', tagInfo)
+                    // console.log('tagInfo:', tagInfo)
                     setNfcInfo(tagInfo)
                     let list_store = await Api.getStoreListByNfcId(tagInfo.id)
                     let temp_all_count = 0;
@@ -49,6 +54,26 @@ export default ({ navigation }) => {
         await NfcManager.unregisterTagEvent()
         await NfcManager.registerTagEvent(onTagDiscovered) ///注册该事件，相当于开启此功能入口
     }, [])
+    const uploadShelfRecord = useCallback(async () => {
+        setIsLoading(true)
+        let tempList = filterCellAttribute(storelist, ['name', 'id', 'count'])
+        let data = {};
+        data['shelf_id'] = nfcInfo['id']
+        data['shelf_name'] = nfcInfo['name']
+        data['content'] = JSON.stringify(tempList)
+        data['time'] = moment().format(FORMAT)
+        data['user_id'] = appState.user.id
+        data['user_name'] = appState.user.name
+        // console.log('data:', data)
+        let res = await Api.insertShelfScanRecords(data)
+        if (res) {
+            ToastAndroid.showWithGravity("上传成功", ToastAndroid.SHORT, ToastAndroid.CENTER);
+            navigation.popToTop()
+        } else {
+            ToastAndroid.showWithGravity("上传失败", ToastAndroid.SHORT, ToastAndroid.CENTER);
+        }
+        setIsLoading(false)
+    }, [storelist, nfcInfo])
     useEffect(() => {
         console.log('信息查看页面创建')
         init();
@@ -84,7 +109,6 @@ export default ({ navigation }) => {
                         <Card.Divider />
                         {storelist.length > 0 ? <View>
                             {storelist.map((item, index) => {
-                                console.log('item:', item)
                                 return <View key={index} style={styles.storebar}>
                                     <View style={styles.titlebarleft}>
                                         {item['has_rfid'] ? <Badge /> : null}
@@ -97,6 +121,8 @@ export default ({ navigation }) => {
                                 <Text>合计</Text>
                                 <Text>{allCount}</Text>
                             </View>
+                            <Button title='无误上传' onPress={uploadShelfRecord} loading={isLoading} />
+                            <Button title='数据修订' buttonStyle={{ backgroundColor: 'tomato', marginTop: 10 }} onPress={() => { navigation.navigate('storechangepage', { storelist, nfcInfo }) }} />
                         </View> : null}
                     </View>
                 </Card> : <Card>

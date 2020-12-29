@@ -107,3 +107,19 @@ export function checkIsLost(sample_list, target_list) {
     })
     return { is_lost, lost_list }
 }
+/**
+ * 过滤细胞属性
+ * @param {*} list  目标JSON
+ * @param {*} attributeList  要保留元素中的哪些属性
+ */
+export function filterCellAttribute(list = [], attributeList = []) {
+    let resultList = [];
+    list.forEach((item) => {
+        let newCell = {}
+        attributeList.forEach((attribute) => {
+            newCell[attribute] = item[attribute]
+        })
+        resultList.push(newCell)
+    })
+    return resultList
+}

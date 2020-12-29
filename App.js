@@ -22,6 +22,7 @@ import RFIDStatisticsPage from './src/pages/mode/modeRFID/RFIDStatisticsPage';
 import RFIDRegisterPage from './src/pages/mode/modeRFID/register/RFIDRegisterPage';
 import RFIDBindPage from './src/pages/mode/modeRFID/bind/RFIDBindPage'
 import RFIDUploadRecordPage from './src/pages/mode/modeRFID/uploadrecord/RFIDUploadRecordPage';
+import StoreChangePage from './src/pages/mode/modeNFCShow/change/StoreChangePage';
 //------------------------------------------------------------------------------------------------------------
 // 全局状态管理
 //------------------------------------------------------------------------------------------------------------
@@ -91,6 +92,7 @@ export default () => {
                             <Stack.Screen name='rfidregister' component={RFIDRegisterPage} />
                             <Stack.Screen name='rfidbind' component={RFIDBindPage} />
                             <Stack.Screen name='rfiduploadrecord' component={RFIDUploadRecordPage} />
+                            <Stack.Screen name='storechangepage' component={StoreChangePage} />
                         </Stack.Navigator>
                     </NavigationContainer>
                 </SafeAreaProvider>

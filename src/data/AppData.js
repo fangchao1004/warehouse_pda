@@ -1,8 +1,10 @@
 import React, { useReducer } from 'react'
 
 const initialState = {
-    version: 'Beta 0.2',
-    updatelog: [{ v: 'beta 0.2', des: 'NFC增加型号、编号属性' }],///更新记录
+    version: 'Beta 0.3',
+    updatelog: [{ v: 'beta 0.2', des: 'NFC增加型号、编号属性' },
+    { v: 'beta 0.3', des: '支持货架物品的NFC盘存，支持RFID的注册、绑定扫描盘存等功能' }
+    ],///更新记录
     themeColor: '#1890ff',
     user: null,
 }
