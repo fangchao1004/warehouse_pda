@@ -6,6 +6,7 @@ import Api from '../../../api/Api';
 import { Button, Card } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import tag_png from '../../../assets/tag.png'
+import { AppDataContext } from '../../../data/AppData';
 
 const { height } = Dimensions.get('window');
 var test_list = [{ name: '1测试', id: "123", count: "99" }, { name: '2测试', id: "123", count: "99" }, { name: '测试', id: "123", count: "99" }, { name: '测试', id: "123", count: "99" }, { name: '测试', id: "123", count: "99" }, { name: '测试', id: "123", count: "99" }, { name: '测试', id: "123", count: "99" }, { name: '测试', id: "123", count: "99" }, { name: '测试', id: "123", count: "99" }, { name: '测试', id: "123", count: "99" }, { name: '测试', id: "123", count: "99" }, { name: '测试', id: "123", count: "99" }, { name: '测试', id: "123", count: "99" }, { name: '测试', id: "123", count: "99" }
@@ -19,6 +20,7 @@ var tempList = [];
 var rfidList = [];
 var isLoop_var = false;
 export default ({ navigation, route }) => {
+    const { appState } = useContext(AppDataContext)
     const [isLoop, setIsLoop] = useState(false)
     const [uhfList, setUhfList] = useState('[]')
     const getRfidListFromDB = useCallback(async () => {
@@ -140,6 +142,7 @@ export default ({ navigation, route }) => {
                 }
             }} />
             <Button buttonStyle={{ ...styles.button, backgroundColor: !isLoop ? "#1890ff" : "tomato" }} title={!isLoop ? "开始扫描" : "停止扫描"} color={!isLoop ? "#1890ff" : "tomato"} onPress={() => {
+                if (!appState.support_rfid) { ToastAndroid.showWithGravity("rfid扫描功能已经屏蔽；请使用特定设备结合相应应用使用该功能", ToastAndroid.LONG, ToastAndroid.CENTER); return }
                 UhfExample.startInventory((v) => {
                     setIsLoop(v)
                     isLoop_var = v

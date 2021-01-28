@@ -36,6 +36,10 @@ export default function MePage({ navigation }) {
                             <Text>{appState.version}</Text>
                         </View>
                         <View style={styles.itemview}>
+                            <Text>RFID扫描功能</Text>
+                            <Text>{appState.support_rfid ? '已开启' : '不支持'}</Text>
+                        </View>
+                        <View style={styles.itemview}>
                             <Text>更新记录</Text>
                             <TouchableOpacity onPress={() => {
                                 navigation.navigate('updatelogpage')

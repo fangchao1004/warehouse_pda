@@ -6,10 +6,6 @@ import { AppDataContext } from '../../../data/AppData'
 const { height, width } = Dimensions.get('window');
 export default function UpdateLogPage({ navigation }) {
     const { appState } = useContext(AppDataContext)
-    const init = useCallback(() => {
-        console.log('appState.updatelog:', appState.updatelog)
-    }, [appState.updatelog])
-    useEffect(() => { init() }, [init])
     return (
         <View>
             <CommonBar title='更新记录' navigation_params={navigation} hasBack />
