@@ -6,6 +6,7 @@ import { AppDataContext } from '../../../data/AppData';
 const { height, width } = Dimensions.get('window');
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
+import { TouchableOpacity } from 'react-native';
 
 export default function MePage({ navigation }) {
     const { appState } = useContext(AppDataContext)
@@ -33,6 +34,12 @@ export default function MePage({ navigation }) {
                         <View style={styles.itemview}>
                             <Text>版本</Text>
                             <Text>{appState.version}</Text>
+                        </View>
+                        <View style={styles.itemview}>
+                            <Text>更新记录</Text>
+                            <TouchableOpacity onPress={() => {
+                                navigation.navigate('updatelogpage')
+                            }}><Text style={{ color: appState.themeColor }}>查看</Text></TouchableOpacity>
                         </View>
                         <Button
                             containerStyle={styles.buttonStyle}
@@ -90,6 +97,6 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     buttonStyle: {
-        marginTop: 10,
+        marginTop: 60,
     },
 })

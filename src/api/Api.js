@@ -210,9 +210,10 @@ const Api = {
      * 插入修改记录
      * @param {*} param0 
      */
-    insertStoreChangeRecords: async ({ origin_content, change_content, user_id, user_name, time, shelf_id, shelf_name, is_edit = 1 }) => {
-        let sql = `insert into store_change_records (origin_content, change_content, user_id, user_name, time, shelf_id, shelf_name, is_edit) 
-        values ('${origin_content}','${change_content}',${user_id},'${user_name}','${time}',${shelf_id},'${shelf_name}',${is_edit})`
+    insertStoreChangeRecords: async ({ origin_content, change_content, user_id, user_name, time, shelf_id, shelf_name, is_edit = 1, remark }) => {
+        let sql = `insert into store_change_records (origin_content, change_content, user_id, user_name, time, shelf_id, shelf_name, is_edit,remark) 
+        values ('${origin_content}','${change_content}',${user_id},'${user_name}','${time}',${shelf_id},'${shelf_name}',${is_edit},${remark ? '"' + remark + '"' : null})`
+        console.log('sql:', sql)
         let res = await Api.obs({ sql })
         if (res.data.code === 0) {
             return true
