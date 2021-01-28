@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     },
     flatItem: { display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 5, padding: 10, backgroundColor: 'white' },
     bottomView: {
-        backgroundColor: '#1890ff', height: 40, alignItems: 'center', justifyContent: 'center'
+        backgroundColor: 'tomato', height: 40, alignItems: 'center', justifyContent: 'center'
     },
     lab: {
         color: '#FFFFFF'
