@@ -2,7 +2,7 @@ import React, { useReducer } from 'react'
 
 const initialState = {
     version: 'Beta 0.4',
-    support_rfid: false,///rfid功能要使用特定的pda设备。开启或屏蔽时要修改MainApplication.java 和 customPackage.java 文件中的代码
+    support_rfid: true,///rfid功能要使用特定的pda设备。开启或屏蔽时要修改MainApplication.java 和 customPackage.java 文件中的代码
     updatelog: [
         { v: 'beta 0.1', des: ['应用初始化构建，基本功能搭建'], time: '2020-11-20' },
         { v: 'beta 0.2', des: ['NFC增加型号、编号属性'], time: '2020-12-23' },

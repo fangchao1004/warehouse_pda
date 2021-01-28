@@ -57,11 +57,11 @@ public class MainApplication extends Application implements ReactApplication {
         initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
 
         ///普通pda【不支持rfid】的情况下，注释以下代码。
-//        mService = UhfAdapter.getUhfManager(this.getApplicationContext());///初始化获取UhfManager的实例对象
-//        boolean isopen = mService.open();
-//        uhf_6c = mService.getISO1800_6C();
-//        int res = mService.setTransmissionPower(2800);
-//        DemoBeep.init(this.getApplicationContext());
+       mService = UhfAdapter.getUhfManager(this.getApplicationContext());///初始化获取UhfManager的实例对象
+       boolean isopen = mService.open();
+       uhf_6c = mService.getISO1800_6C();
+       int res = mService.setTransmissionPower(2800);
+       DemoBeep.init(this.getApplicationContext());
     }
 
 

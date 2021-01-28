@@ -23,7 +23,7 @@ public class CustomPackage implements ReactPackage {
 
         modules.add(new ToastModule(reactContext));///自定义的toast模块
         ///普通pda【不支持rfid】的情况下，注释以下代码。
-//        modules.add(new UhfModule(reactContext));///自定义的uhf模块
+        modules.add(new UhfModule(reactContext));///自定义的uhf模块
 
         return modules;
     }
