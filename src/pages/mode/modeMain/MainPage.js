@@ -10,8 +10,9 @@ const { height, width } = Dimensions.get('window');
 
 const list = [
     { img: search_png, title: '货架标签查看', value: 1 },
-    { img: input_png, title: '货架标签录入', value: 2 },
-    { img: radar_png, title: '物品盘存', value: 3 }
+    { img: input_png, title: '货架标签绑定', value: 4 },
+    { img: radar_png, title: '物品盘存', value: 3 },
+    // { img: input_png, title: '货架标签录入', value: 2 },
 ]
 function renderFunCard(navigation) {
     return list.map((item, index) => {
@@ -20,16 +21,20 @@ function renderFunCard(navigation) {
                 onPress={() => {
                     switch (item.value) {
                         case 1:
-                            console.log('into查看界面')
+                            console.log('货架标签查看')
                             navigation.navigate('nfcshow')
                             break;
                         case 2:
-                            console.log('into录入界面')
+                            console.log('货架标签录入')
                             navigation.navigate('nfcadd')
                             break;
                         case 3:
-                            console.log('物品标签查看')
+                            console.log('物品盘存')
                             navigation.navigate('rfidshow')
+                            break;
+                        case 4:
+                            console.log('货架标签绑定')
+                            navigation.navigate('nfcbind')
                             break;
                         default:
                             break;

@@ -123,3 +123,11 @@ export function filterCellAttribute(list = [], attributeList = []) {
     })
     return resultList
 }
+
+export function copyList(list, times = 1) {
+    let temp_list = []
+    for (let index = 0; index < times; index++) {
+        temp_list = [...JSON.parse(JSON.stringify(temp_list)), ...list]
+    }
+    return temp_list
+}

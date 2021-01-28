@@ -90,6 +90,32 @@ const Api = {
         }
         return false
     },
+    unbindNfc: async ({ id }) => {
+        let sql = `update nfc_shelfs set code = NULL where id = ${id}`
+        let res = await Api.obs({ sql })
+        if (res.data.code === 0) {
+            return true
+        }
+        return false
+    },
+    bindNfc: async ({ code, id }) => {
+        let sql = `update nfc_shelfs set code = '${code}' where id = ${id}`
+        let res = await Api.obs({ sql })
+        if (res.data.code === 0) {
+            return true
+        }
+        return false
+    },
+    getUnbindNfcList: async () => {
+        let sql = `select nfc_shelfs.id, nfc_shelfs.name, nfc_shelfs.model, nfc_shelfs.num, tags.name as tag_name from nfc_shelfs
+        left join tags on tags.id = nfc_shelfs.tag_id
+        where nfc_shelfs.isdelete = 0 and (nfc_shelfs.code is NULL || nfc_shelfs.code = '')`
+        let res = await Api.obs({ sql })
+        if (res.data.code === 0) {
+            return res.data.data
+        }
+        return []
+    },
     getRfidList: async () => {
         let sql = `select rfids.*,stores.name as store_name from rfids
         left join stores on stores.id = rfids.store_id

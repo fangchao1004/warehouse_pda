@@ -8,13 +8,6 @@ import computer_png from '../../../../assets/computer.png'
 import toolbox_png from '../../../../assets/toolbox.png'
 
 const { width, height } = Dimensions.get('window')
-function copyList(list, times = 1) {
-    let temp_list = []
-    for (let index = 0; index < times; index++) {
-        temp_list = [...JSON.parse(JSON.stringify(temp_list)), ...list]
-    }
-    return temp_list
-}
 var unbind_rfid_list = []///待绑定的rfid_list
 var list_orginal = []///原始storelist存根，用于搜索筛选后恢复
 /**
