@@ -233,5 +233,13 @@ const Api = {
         }
         return false
     },
+    getStoreMajors: async () => {
+        let sql = `select * from store_majors`
+        let res = await Api.obs({ sql })
+        if (res.data.code === 0) {
+            return res.data.data
+        }
+        return []
+    }
 }
 export default Api;

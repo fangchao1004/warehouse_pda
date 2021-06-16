@@ -68,12 +68,16 @@ export default ({ navigation }) => {
         let res = await Api.insertShelfScanRecords(data)
         if (res) {
             ToastAndroid.showWithGravity("上传成功", ToastAndroid.SHORT, ToastAndroid.CENTER);
-            navigation.popToTop()
+            // navigation.popToTop() ///不再返回首页
+            setNfcInfo(null)
         } else {
             ToastAndroid.showWithGravity("上传失败", ToastAndroid.SHORT, ToastAndroid.CENTER);
         }
         setIsLoading(false)
     }, [storelist, nfcInfo])
+    const clearSelectNfcInfo = useCallback(() => {
+        setNfcInfo(null)
+    }, [])
     useEffect(() => {
         console.log('信息查看页面创建')
         init();
@@ -122,7 +126,7 @@ export default ({ navigation }) => {
                                 <Text>{allCount}</Text>
                             </View>
                             <Button title='无误上传' onPress={uploadShelfRecord} loading={isLoading} />
-                            <Button title='数据修订' buttonStyle={{ backgroundColor: 'tomato', marginTop: 10 }} onPress={() => { navigation.navigate('storechangepage', { storelist, nfcInfo }) }} />
+                            <Button title='数据修订' buttonStyle={{ backgroundColor: 'tomato', marginTop: 10 }} onPress={() => { navigation.navigate('storechangepage', { storelist, nfcInfo, clearSelectNfcInfo }) }} />
                         </View> : null}
                     </View>
                 </Card> : <Card>

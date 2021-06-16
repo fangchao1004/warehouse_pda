@@ -55,7 +55,11 @@ export default function StoreChangePage({ navigation, route }) {
                 if (!res) { ToastAndroid.showWithGravity("修改失败", ToastAndroid.SHORT, ToastAndroid.CENTER); }
             }
             ToastAndroid.showWithGravity("修改成功", ToastAndroid.SHORT, ToastAndroid.CENTER);
-            navigation.popToTop()
+            // navigation.popToTop() ///不再返回首页
+            if (route.params?.clearSelectNfcInfo) {
+                route.params.clearSelectNfcInfo()///清除前一个页面中显示的货架信息
+                navigation.pop(1)
+            }
         } else {
             ToastAndroid.showWithGravity("修改失败", ToastAndroid.SHORT, ToastAndroid.CENTER);
         }
@@ -82,7 +86,7 @@ export default function StoreChangePage({ navigation, route }) {
                 <CommonBar title='普通物品数据修订' navigation_params={navigation} hasBack />
                 <View style={styles.header}>
                     <Text style={styles.titletxt}>点击物品开始修改数据；完成后添加【确定上传】
-                <Text style={styles.subtitletxt}>(标签物品请在平台端进行谨慎修订)</Text>
+                        <Text style={styles.subtitletxt}>(标签物品请在平台端进行谨慎修订)</Text>
                     </Text>
                 </View>
                 <View style={styles.flatListview}>
