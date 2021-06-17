@@ -35,7 +35,7 @@ export default function StoreChangePage({ navigation, route }) {
         // console.log('变动过的物品;对应的原始数据:', act_change_list_origin)
         // console.log('变动过的物品;变动后的数据:', act_change_list)
         if (act_change_list.length === 0) { ToastAndroid.showWithGravity("数据没有发生修改", ToastAndroid.SHORT, ToastAndroid.CENTER); return }
-        if (remark.length === 0) { ToastAndroid.showWithGravity("变动说明不可为空", ToastAndroid.SHORT, ToastAndroid.CENTER); return }
+        // if (remark.length === 0) { ToastAndroid.showWithGravity("变动说明不可为空", ToastAndroid.SHORT, ToastAndroid.CENTER); return }
         setIsLoading(true)
         let data = {};
         data['change_content'] = JSON.stringify(filterCellAttribute(act_change_list, ['name', 'id', 'count']))///只保留部分属性

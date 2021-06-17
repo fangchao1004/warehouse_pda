@@ -75,8 +75,10 @@ export default function NFCBindPage({ navigation }) {
         }, 5000)
     }, [code, selectItem])
     const searchHandler = useCallback(() => {
+        if (!searchNum) { ToastAndroid.showWithGravity("请先输入关键字", ToastAndroid.SHORT, ToastAndroid.CENTER); return }
         let result_after_filter = unBindNfcOriginList.filter((item) => { return (item.num && String(item.num).indexOf(searchNum) !== -1) || (item.name && String(item.name).indexOf(searchNum) !== -1) || (item.model && String(item.model.toUpperCase()).indexOf(searchNum.toUpperCase()) !== -1) })
         setUnBindNfcList(result_after_filter)
+        setModal2Visible(false)
     }, [searchNum])
     const resetHandler = useCallback(() => {
         setSearchNum(null)
